@@ -6,6 +6,7 @@ import { AuthProvider } from "@/lib/useAuth";
 import { ToastProvider } from "@/components/ui/toast";
 import { AppShell } from "@/components/layout/AppShell";
 import { StorageMigrator } from "@/components/StorageMigrator";
+import { Analytics } from "@vercel/analytics/next";
 
 const heading = Space_Grotesk({
   subsets: ["latin"],
@@ -40,6 +41,7 @@ export default function RootLayout({
             </ToastProvider>
           </AuthProvider>
         </TranslationProvider>
+        <Analytics />
       </body>
     </html>
   );
