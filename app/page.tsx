@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import type { CSSProperties } from "react";
 import {
   ArrowRight,
   BarChart3,
@@ -10,17 +11,58 @@ import {
   Layers,
   Mail,
   Rocket,
-  ShoppingCart,
   Sparkles,
 } from "lucide-react";
 import { useTranslation } from "@/lib/useTranslation";
-import { FeatureCard, Section, StatCard } from "@/components/design";
+import { FeatureCard, Section } from "@/components/design";
 import { shellContainer } from "@/lib/design";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { StaggerContainer, StaggerItem } from "@/lib/motion";
+import styles from "./home.module.css";
+
+const monogram = [
+  "0110 1110",
+  "1001 1001",
+  "1111 1110",
+  "1001 1001",
+  "1001 1110",
+];
+
+function HeroMonogram() {
+  return (
+    <div className={styles.stage} aria-hidden="true">
+      <div className={styles.mark}>
+        {monogram.flatMap((line, row) =>
+          Array.from(line, (pixel, column) =>
+            pixel === "1" ? (
+              <span
+                key={row * line.length + column}
+                className={styles.block}
+                style={{
+                  gridArea: `${row + 1} / ${column + 1}`,
+                  "--light-at": column < 3 ? "480ms" : column < 6 ? "935ms" : "1390ms",
+                } as CSSProperties}
+              />
+            ) : null
+          )
+        )}
+      </div>
+
+      <div className={styles.cube}>
+        <span className={styles.front} />
+        <span className={styles.back} />
+        <span className={styles.right} />
+        <span className={styles.left} />
+        <span className={styles.top} />
+        <span className={styles.bottom} />
+      </div>
+    </div>
+  );
+}
+
 
 export default function Home() {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
 
   const process = [
     {
@@ -58,88 +100,75 @@ export default function Home() {
     },
   ];
 
-  const highlights = [
+  const featured = [
     {
-      icon: BarChart3,
-      label: t.home.highlight1Title,
-      hint: t.home.highlight1Desc,
-      value: 42,
-      suffix: "+",
+      name: "PsicoCare",
+      image: "/projects/psicocare.webp",
+      ...t.home.psicocare,
     },
     {
-      icon: ShoppingCart,
-      label: t.home.highlight2Title,
-      hint: t.home.highlight2Desc,
-      value: 98,
-      suffix: "%",
-    },
-    {
-      icon: Sparkles,
-      label: t.home.highlight3Title,
-      hint: t.home.highlight3Desc,
-      value: 96,
-      suffix: "%",
+      name: "MotoMas",
+      image: "/projects/motomas.webp",
+      ...t.home.motomas,
     },
   ];
 
   return (
-    <div className="pb-12">
-      <section className="relative overflow-hidden py-16 md:py-28">
-        <div className={`${shellContainer} relative`}>
-          <div className="absolute -left-28 top-8 h-56 w-56 rounded-full bg-primary/30 blur-[90px]" />
-          <div className="absolute -right-24 top-0 h-64 w-64 rounded-full bg-accent/25 blur-[95px]" />
-          <div className="relative rounded-3xl border border-white/30 bg-card/70 px-6 py-12 shadow-[0_30px_80px_-48px_hsl(var(--primary)/0.8)] backdrop-blur-xl md:px-12 md:py-14">
-            <p className="mb-4 inline-flex rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-primary">
-              {t.home.heroEyebrow}
-            </p>
+    <div lang={language} className="pb-12">
+      <section className="pb-9 pt-8 md:pb-14 md:pt-14" aria-labelledby="home-title">
+        <div className={shellContainer}>
+          <div className="grid items-center gap-7 rounded-3xl border border-border/70 bg-card/80 p-5 shadow-[0_30px_80px_-48px_hsl(var(--primary)/0.6)] backdrop-blur-xl sm:p-8 md:grid-cols-[1.05fr_1fr] md:gap-9 lg:gap-12 lg:p-11">
+            <div className="min-w-0">
+              <div className={styles.copy}>
+                <p className="mb-3 text-sm font-bold tracking-wide text-primary sm:text-base">
+                  Alessandro Barrios
+                </p>
+                <h1
+                  id="home-title"
+                  className="text-[clamp(2rem,4.55vw,3.6rem)] font-semibold leading-[1.07]"
+                >
+                  {t.home.heroTitle}
+                </h1>
+              </div>
 
-            <motion.h1
-              key={t.home.heroTitle}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.28 }}
-              className="max-w-4xl bg-gradient-to-r from-foreground to-foreground/85 bg-clip-text text-4xl font-semibold leading-[1.06] text-transparent md:text-6xl"
-            >
-              {t.home.heroTitle}
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.24, delay: 0.2 }}
-              className="text-measure mt-5 max-w-2xl text-lg text-muted-foreground md:text-xl"
-            >
-              {t.home.heroSubtitle}
-            </motion.p>
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.24, delay: 0.28 }}
-              className="text-measure mt-2 max-w-2xl text-base text-muted-foreground"
-            >
-              {t.home.headline}
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.24, delay: 0.36 }}
-              className="mt-8 flex flex-wrap gap-3"
-            >
-              <Link href="/projects">
-                <Button size="lg" className="gap-2">
+              <div className="mt-6 flex flex-wrap gap-2.5 sm:mt-7">
+                <Link href="/projects" className={buttonVariants({ className: "gap-2 sm:h-12 sm:px-5" })}>
                   {t.home.cta}
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-              <Link href="/contact">
-                <Button variant="secondary" size="lg" className="gap-2">
-                  <Mail className="h-4 w-4" />
+                  <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                </Link>
+                <Link href="/contact" className={buttonVariants({ variant: "secondary", className: "gap-2 sm:h-12 sm:px-5" })}>
+                  <Mail aria-hidden="true" className="h-4 w-4" />
                   {t.home.ctaContact}
-                </Button>
-              </Link>
-            </motion.div>
+                </Link>
+              </div>
+            </div>
+
+            <HeroMonogram />
           </div>
+        </div>
+      </section>
+
+      <section className={`${shellContainer} pb-10 md:pb-14`} aria-labelledby="featured-projects">
+        <h2 id="featured-projects" className="mb-5 text-3xl font-semibold tracking-tight md:mb-7 md:text-4xl">
+          {t.home.featuredTitle}
+        </h2>
+        <div className="grid gap-5 md:grid-cols-2">
+          {featured.map((project) => (
+            <article key={project.name} className="overflow-hidden rounded-2xl border border-border/70 bg-card/90">
+              <Image
+                src={project.image}
+                alt={project.imageAlt}
+                width={1200}
+                height={750}
+                sizes="(min-width: 1152px) 542px, (min-width: 768px) 48vw, 94vw"
+                className="block h-auto w-full border-b border-border/70 bg-muted"
+              />
+              <div className="space-y-2 px-5 py-5 sm:px-6">
+                <h3 className="text-2xl font-semibold">{project.name}</h3>
+                <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">{project.description}</p>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
@@ -176,21 +205,6 @@ export default function Home() {
         </StaggerContainer>
       </Section>
 
-      <Section title={t.home.highlights} subtitle={t.home.highlightsIntro}>
-        <StaggerContainer className="grid gap-4 md:grid-cols-3">
-          {highlights.map((highlight) => (
-            <StaggerItem key={highlight.label}>
-              <StatCard
-                icon={highlight.icon}
-                label={highlight.label}
-                hint={highlight.hint}
-                value={highlight.value}
-                suffix={highlight.suffix}
-              />
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
-      </Section>
     </div>
   );
 }

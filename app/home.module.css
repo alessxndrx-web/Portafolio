@@ -1,0 +1,156 @@
+.stage {
+  --step: clamp(1rem, 2.4vw, 1.55rem);
+  --cube-size: calc(var(--step) * 2.05);
+  --half-cube: calc(var(--cube-size) / 2);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  min-height: 11rem;
+  aspect-ratio: 1.6;
+  border: 1px solid #283765;
+  border-radius: 1.15rem;
+  background:
+    radial-gradient(ellipse at 48% 48%, #29345c 0%, transparent 65%),
+    linear-gradient(148deg, #111a34, #0b1329 60%, #101c37);
+}
+
+.stage::before,
+.stage::after {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+}
+
+.stage::before {
+  background-image:
+    linear-gradient(#a1b6fa21 1px, transparent 1px),
+    linear-gradient(90deg, #a1b6fa21 1px, transparent 1px);
+  background-position: center;
+  background-size: var(--step) var(--step);
+  mask-image: radial-gradient(ellipse, black 20%, transparent 74%);
+}
+
+.stage::after {
+  inset: 0.65rem;
+  border: 1px solid #8099ec28;
+  border-radius: 0.8rem;
+}
+
+.mark {
+  display: grid;
+  grid-template-columns: repeat(9, var(--step));
+  grid-template-rows: repeat(5, var(--step));
+}
+
+.block {
+  position: relative;
+  margin: 1.5px;
+  border: 1px solid #d9fcffb3;
+  border-radius: 3px;
+  background: linear-gradient(145deg, #d1fbff, #77d5fc 60%, #5595dc);
+  box-shadow: 0 2px 0 #3e63a6, 0 0 11px #5fb6ff83;
+}
+
+.block:nth-child(even) {
+  background: linear-gradient(145deg, #f2f0ff, #b6bbfe 60%, #8c9dec);
+}
+
+.cube {
+  position: absolute;
+  width: var(--cube-size);
+  height: var(--cube-size);
+  visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.cube span {
+  position: absolute;
+  inset: 0;
+  border: 1px solid #defbff;
+  border-radius: 4px;
+  background: linear-gradient(145deg, #bdfaff, #6bbcf0 62%, #6696ec);
+  box-shadow: inset 0 0 8px #e5faff, 0 0 15px #77caff77;
+}
+
+.cube .front { transform: translateZ(var(--half-cube)); }
+.cube .back { transform: rotateY(180deg) translateZ(var(--half-cube)); }
+.cube .right { transform: rotateY(90deg) translateZ(var(--half-cube)); }
+.cube .left { transform: rotateY(-90deg) translateZ(var(--half-cube)); }
+.cube .top { transform: rotateX(90deg) translateZ(var(--half-cube)); }
+.cube .bottom { transform: rotateX(-90deg) translateZ(var(--half-cube)); }
+
+.cube .right,
+.cube .left {
+  background: linear-gradient(145deg, #ddd9ff, #8c95eb 65%, #5365bd);
+}
+
+.cube .top,
+.cube .bottom {
+  background: linear-gradient(145deg, #f4feff, #a8c7ff 70%, #829fe9);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cube {
+    animation: tumble 2s linear both;
+  }
+
+  .block {
+    animation: light-up 380ms ease-out var(--light-at) both;
+  }
+
+  .copy {
+    animation: reveal 520ms cubic-bezier(0.22, 1, 0.36, 1) 1450ms both;
+  }
+}
+
+@keyframes tumble {
+  /* Each landing lights a group of blocks as the next tumble starts. */
+  0% {
+    visibility: visible;
+    transform: perspective(420px) translate3d(calc(-4.6 * var(--step)), calc(2.15 * var(--step)), 0)
+      rotateX(-22deg) rotateY(-32deg) rotateZ(-12deg);
+  }
+  12% {
+    transform: perspective(420px) translate3d(calc(-3.8 * var(--step)), calc(0.25 * var(--step)), 13px)
+      rotateX(27deg) rotateY(15deg) rotateZ(5deg);
+  }
+  24% {
+    transform: perspective(420px) translate3d(calc(-2.7 * var(--step)), calc(0.85 * var(--step)), 0)
+      rotateX(73deg) rotateY(60deg) rotateZ(17deg);
+  }
+  35% {
+    transform: perspective(420px) translate3d(calc(-1.35 * var(--step)), calc(-1.8 * var(--step)), 15px)
+      rotateX(119deg) rotateY(102deg) rotateZ(8deg);
+  }
+  47% {
+    transform: perspective(420px) translate3d(calc(0.25 * var(--step)), calc(-1.05 * var(--step)), 0)
+      rotateX(167deg) rotateY(149deg) rotateZ(-6deg);
+  }
+  58% {
+    transform: perspective(420px) translate3d(calc(1.85 * var(--step)), calc(-2.2 * var(--step)), 12px)
+      rotateX(210deg) rotateY(192deg) rotateZ(-11deg);
+  }
+  70% {
+    visibility: visible;
+    transform: perspective(420px) translate3d(calc(3.3 * var(--step)), calc(0.25 * var(--step)), 0)
+      rotateX(257deg) rotateY(239deg) rotateZ(4deg);
+  }
+  83%, 100% {
+    visibility: hidden;
+    transform: perspective(420px) translate3d(calc(3.3 * var(--step)), calc(0.25 * var(--step)), 0)
+      rotateX(257deg) rotateY(239deg) rotateZ(4deg) scale(0);
+  }
+}
+
+@keyframes light-up {
+  from { opacity: 0; transform: translateY(5px) scale(0.65); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
