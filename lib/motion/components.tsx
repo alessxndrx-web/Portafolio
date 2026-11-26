@@ -25,7 +25,7 @@ export function RouteTransition({ children }: { children: ReactNode }) {
     <motion.div
       key={pathname}
       variants={pageVariants}
-      initial="initial"
+      initial={pathname === "/" ? false : "initial"}
       animate="animate"
       transition={pageTransition}
       className="min-h-full"
