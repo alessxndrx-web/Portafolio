@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { Menu, MessageCircle, Moon, Sun, X } from "lucide-react";
 import { useTranslation } from "@/lib/useTranslation";
 import { useAuth } from "@/lib/useAuth";
+import { whatsappUrl } from "@/lib/contact";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { shellContainer } from "@/lib/design";
@@ -86,7 +87,6 @@ export function Navbar() {
     { href: "/about", label: t.nav.about },
     { href: "/contact", label: t.nav.contact },
   ];
-  const whatsappUrl = "https://wa.me/50589700990";
 
   return (
     <header className="sticky top-0 z-50 px-2 pt-2 md:px-0 md:pt-3">

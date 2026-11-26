@@ -113,16 +113,7 @@ export const en = {
   contact: {
     title: "Contact",
     subtitle: "Let's talk about your next project",
-    name: "Name",
-    email: "Email",
-    message: "Message",
-    send: "Send",
-    sending: "Sending...",
-    success: "Message sent successfully",
-    nameRequired: "Name is required",
-    emailRequired: "Email is required",
-    emailInvalid: "Invalid email",
-    messageRequired: "Message is required",
+    whatsapp: "Message me on WhatsApp",
   },
   login: {
     title: "Login",
