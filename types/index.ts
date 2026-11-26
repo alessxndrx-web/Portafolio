@@ -26,14 +26,6 @@ export type Sale = {
   date: string;
 };
 
-export type ContactMessage = {
-  id: string;
-  name: string;
-  email: string;
-  message: string;
-  date: string;
-};
-
 export type EditableContent = {
   hero: {
     title: string;

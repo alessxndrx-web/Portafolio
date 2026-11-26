@@ -57,7 +57,7 @@ To access protected demo routes, use these credentials:
 - `/` - Home page
 - `/projects` - Projects showcase
 - `/about` - About page
-- `/contact` - Contact form
+- `/contact` - Direct contact via WhatsApp
 - `/login` - Login page
 - `/demos/editable-site` - Public editable landing page
 
